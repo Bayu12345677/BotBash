@@ -1,0 +1,244 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+: Author : Bayu Rizky A.M
+: Date   : 13/Agt/2022
+: Type   : Base
+
+
+: ${set_return:=null}
+: ${set_urandom:=$(cat /dev/urandom|head -1|tr -dc "[[:alpha:]]"|fold -w 20)}
+set_display=()
+
+source lib/moduler.sh
+# depencies
+@require bash.mod
+
+#----------------+---+-{ body mechanize }--------------------#
+class __mechanize__; true 23
+{
+	{
+		public: app = set_feature;
+		public: app = exec_operator;
+		public: app = setCommand;
+	}
+
+	def: __mechanize__::set_feature()
+	{
+		var num : $1
+		var name : "${@:3}"
+
+		if (test "$2" != "->"); then
+			println_info "Error"
+			println_info "Syntax Not defined ${BASH_SOURCE[1]} ${BASH_LINENO[0]}"
+			exit 20
+		fi
+
+		# simpan variable
+		set_display=([1]="$num" [2]="$name")
+
+#		Tulis.strN "${me}[${hi}>_${me}]${pu} ${ij}$num${me}.${pu} $name${st}"
+#		var set_operator_config : "
+#			if (test \"\$render_reply\" == \"$1\"); then
+#				$set_command;
+#			fi
+#		"
+#		eval
+	}
+
+	def: __mechanize__::exec_operator()
+	{
+		var set_operator_config : "
+if (test \"\$render_reply\" == \"${set_display[1]}\"); then
+	$set_command;
+else set_status=22;: tes
+fi
+		"
+	}
+
+	def: __mechanize__::setCommand()
+	{
+		var set_command : "$@"
+	}
+}
+
+const: __mechanize__ = Config
+
+#----------------+---+-{ strukture bot }--------------------#
+
+class __structure__; true 25
+{
+	{
+		public: app = bot_chat;
+		public: app = bot_feature;
+		public: app = sys_feature;
+		public: app = bot_main;
+	}
+
+		def: __structure__::sys_feature()
+        {
+                # cari config
+                local find_config=$(cat config.txk)
+                # ambil data
+                let search=0
+                local total_name=$(@return: find_config|egrep "Config.set_feature")
+                local total_operator=$(@return: find_config|egrep "Config.exec_operator")
+                local total_command=$(@return: find_config|egrep "Config.setCommand")
+                # proses 1
+                while ((search < $(@return: total_name|wc -l))); do
+                        let search++
+                        var nama_conf : $(@return: total_name|tail +$search|head -1)
+                        var command_conf : $(@return: total_command|tail +$search|head -1)
+                        var exec_conf : $(@return: total_operator|tail +$search|head -1)
+                        eval "${nama_conf}; ${command_conf}; ${exec_conf}"
+                       	config_setup+="$set_operator_config"
+				done
+	}
+	def: __structure__::bot_feature()
+	{
+		# cari config
+		local find_config=$(cat config.txk|sed 's;#.*;'';g')
+		# ambil data
+		let search=0
+		local total_name=$(@return: find_config|egrep "Config.set_feature")
+		local total_operator=$(@return: find_config|egrep "Config.exec_operator")
+		local total_command=$(@return: find_config|egrep "Config.setCommand")
+		# proses 1
+		while ((search < $(@return: total_name|wc -l))); do
+			let search++
+			var nama_conf : $(@return: total_name|tail +$search|head -1)
+			var command_conf : $(@return: total_command|tail +$search|head -1)
+			var exec_conf : $(@return: total_operator|tail +$search|head -1)
+			eval "${nama_conf}; ${command_conf}; ${exec_conf}"
+			Tulis.strN "\t\t\t   ${me}[${hi}>_${me}]${pu} ${ij}$num${me}.${pu} $name${st}"					
+		done
+	}
+
+	def: __structure__::bot_chat()
+	{
+		var cek_reply : ${@}
+
+		if ! (test -z "$cek_reply"); then
+			# memulai bot reply jika input dari user tidak ada yg cocok
+			var set_msg : $(ruby utils/simi.rb "$cek_reply" id)
+			Tulis.strN "🤖 ${me}:${pu} $set_msg${st}"
+		else
+			true
+		fi
+	}
+
+	def: __structure__::bot_main()
+	{
+		 Tulis.strN "${hi}╰╮╰╮╰╮"
+		 echo -e "${pu}╭━━━━━━━╮   ${ij}<${me}----------${ij}>${cy}[ ${ij}•${me}•${pu} Welcome to bashbot ${me}•${ij}•${cy}]${ij}<${me}----------${ij}>"
+		 echo -e "${pu}╰━━━━━━━╯"
+		 echo -e "${ku}┃${pu}╭${hi}╭╮${pu}┏┏┏┏${ku}┣${cy}━╮ ${ij}[${ku}-${me}>${ij}]${pu} Author  ${m}:${hi} - ${me}•${cy}•${pu} Bayu Rizki A.M ${cy}•${me}•${hi} -"
+		 echo -e "${ku}┃${pu}┃${hi}┃┃${pu}┣┣┣┣${ku}┃${pu}/${cy}┃ ${ij}[${ku}-${me}>${ij}]${pu} Youtube ${m}:${hi} - ${me}•${cy}•${pu} Pejuang Kentang ${cy}•${me}•${hi} -"
+		 echo -e "${ku}┃${pu}╰${hi}╰╯${pu}┃┃┗┗${ku}┣${cy}━╯ ${ij}[${ku}-${me}>${ij}]${pu} Source  ${m}: ${ij}(${hi}https://github.com/Bayu12345677/BotBash${ij})${st}"
+		 echo -e "${ku}╰━━━━━━━╯"
+		 echo
+		 echo -e "${me}[${ij}•${me}]${pu} Waktu  ${m}:$pu $(date)"
+		 echo -e "${me}[${ij}•${me}]${pu} uptime ${m}:$hi $(uptime)"
+		 echo
+		 
+		 def: menu_show()
+		 {
+		 	Tulis.strN "🤖 ${me}:"
+            Tulis.strN "\t${ij}[${hi}>_${ij}]$pu Selamat datang ${ij}>${hi}_${ij}<"
+            Tulis.strN "\t${ij}[${hi}>_${ij}]$pu untuk menu${me}:"
+            __structure__::bot_feature
+            echo
+            Tulis.strN "\t${ku}╭──────${me}[${hi}>_${me}]$pu Fitur lain nya"
+            Tulis.strN "\t${ku}╿"
+            Tulis.strN "\t${ku}╿${me}-${cy}>$me 1${ij}.$pu Kecerdasan Membaca reply"
+            Tulis.strN "\t${ku}╿${me}-${cy}>$me 2${ij}.$pu custom fitur"
+            Tulis.strN "\t${ku}╰───────────────────────$st\n"
+          };
+        #set -o pipefail
+     	#set -e     
+	local app_rich="
+[bold]                [blue]⩺[white] Creator [magenta]:[white] Bayu Riski A.M
+[bold]                [green]⩺[white] Type    [magenta]:[white] Base BOT
+[bold]                [red]⩺[white] Github  [magenta]:[white] Bayu12345677
+[bold]                [yellow]⩺[white] Donate  [magenta]:[white] 085731184377 [yellow]([white]dana [blue]/[white] pulsa[yellow])
+[bold]                [cyan]---------------------------------------
+[black]                      Fitur bot by Contributor
+                                        "
+		 while { Tulis.str "${ij}[${hi}Main${ij}]${me}-${ku}>${st} "; read render_reply; }; do
+		 	echo
+		 	if (test -z "$render_reply"); then
+		 		Tulis.strN "🤖 ${m}:${pu} Saya tidak mengerti maksud anda$st\n"
+		 		var validasi_end : "True"
+		 	elif (@return: render_reply|grep -Eo '(help|Help|HELP|[a-zA-Z](elp|ELP))' &> /dev/null) || (@return: render_reply|grep -Eo '(bantuan|menu|[a-zA-Z]en(u|U)|[a-zA-Z%._-](En|en|eN|EN)[a-zA-Z%._-]*)|[a-zA-Z](ant|ANT|aNT|Ant)[a-zA-Z%._-]*|(menu|Menu|MENU|(m|M)(en|EN)[a-zA-Z%._-]*|(B|b)(an|AN)[a-zA-Z%._-]*)[[:space:]](sc|SC)[A-Za-z%._-]*$' &> /dev/null); then
+		 		#Tulis.strN "🤖 :"
+		 		#Tulis.strN "\t[>_] Selamat datang >_<"
+		 		#Tulis.strN "\t[>_] untuk menu:\n"
+		 		#__structure__::bot_feature
+		 		#echo
+		 		#Tulis.strN "╭──────[>_] Fitur lain nya"
+		 		#Tulis.strN "╿"
+		 		#Tulis.strN "╿-> 1. Kecerdasan Membaca reply"
+		 		#Tulis.strN "╿-> 2. custom fitur"
+		 		#Tulis.strN "╰───────────────────────\n"
+		 		menu_show
+		 		var validasi_end : "True"
+		 	fi
+		 		__structure__::sys_feature
+		 		{
+		 			eval "$config_setup"
+		 			# debug
+		 			#echo "$set_status"
+		 		}
+		 	def: mechanize_bot {
+		 				__structure__::bot_chat "$render_reply"
+		 				echo
+		 			#else true
+		 			#fi
+		 		}
+		 		unset config_setup
+		 	{
+		 		if (test "$render_reply" == "Author") || \
+		 		   (test "$render_reply" == "AUTHOR") || \
+		 		   (test "$render_reply" == "Pembuat") || \
+		 		   (@return: render_reply|grep -Eo '[a-zA-Z](e)mbu(a)t[[:space:]][a-zA-Z]cript*$|[A-Z]EMBU(A)T[[:space:]]SCRIPT*$|([A-Za-z]uth(o)r*$|[A-Za-z]UTH(O)R)[[:space:]]([A-Za-z]cript|[A-Za-z]CRIPT|[a-zA-Z]crypt|[a-zA-Z]CRYPT|([a-zA-Z]EMBUAT[[:space:]]([a-zA-Z]cript*$|[a-zA-Z]crypt*$)|([A-Za-z](emb[a-zA-Z]*|EMB[a-zA-Z]*)[[:space:]]([a-zA-Z]cr[a-zA-Z%._-]*|[a-zA-Z]CR[A-Za-z%._-]*))' &> /dev/null) || \
+		 		   (@return: render_reply|grep -Eo '([A-Za-z]emb[a-zA-Z]*|[a-zA-Z]EMB[a-zA-Z%._-]*|[A-Za-z]em[a-zA-Z%._-]*|[a-zA-Z]EM[a-zA-Z%._-]*)[[:space:]]([a-zA-Z]cr[a-zA-Z%._-]*|[A-Za-z]CR[a-zA-Z%._-]*|[a-zA-Z]c[a-zA-Z%._-]*|[a-zA-Z]C[a-zA-Z%._-]*)' &> /dev/null) || \
+		 		   (@return: render_reply|grep -Eo '((C|c)reat[a-zA-Z%._-]*|(c|C)REAT[a-zA-Z%._-]*)[[:space:]](Script|Scrypt|script|scrypt|(s|S)(cr|CR)[a-zA-Z%._-]*)|(Author|author|(a|A)(uth|UTH)[a-zA-Z%._-]*)[[:space:]](script|SCRIPT|Script|scrypt|Scrypt|SCRYPT|(s|S)(cr|CR)[a-zA-Z%._-]*)|(author|Author|(au|AU)(t|T)[a-zA-Z%._-]*)' &> /dev/null); then
+		 			local app_rich="
+[bold]                [blue]⩺[white] Creator [magenta]:[white] Bayu Riski A.M
+[bold]                [green]⩺[white] Type    [magenta]:[white] Base BOT
+[bold]                [red]⩺[white] Github  [magenta]:[white] Bayu12345677
+[bold]                [yellow]⩺[white] Donate  [magenta]:[white] 085731184377 [yellow]([white]dana [blue]/[white] pulsa[yellow])
+[bold]                [cyan]---------------------------------------
+[black]                      Fitur bot by Contributor
+		 			"
+		 			rich "$app_rich" -p -a heavy --title "🤖 Informasi" -w "100"
+		 			echo && unset set_status
+		 		fi
+
+		 		var regex_kata1 : "(D|d)(on|ON)[a-zA-Z%._-]*|((saw|SAW)[a-zA-Z%._-]*)$"
+		 		var regex_kata2 : "(saw|[a-zA-Z]AW)[a-zA-Z*._-]*[[:space:]]((aut|AUT)[a-zA-Z%._-]*)|((Sawer|donasi|Donasi)[[:space:]](cre|CRE|Cre)([ato]|[Ato]|[ATO])*[a-zA-Z%._-])[[:space:]](s[A-Za-z]|S[a-zA-Z])((ry|RY)[a-zA-Z%._-]*|(ri|RI)[a-zA-Z%._-]*)$"
+
+				if [[ "$render_reply" =~ ${regex_kata1} || "$render_reply" =~ ${regex_kata2} ]]; then
+					Tulis.strN "🤖 ${me}:${st}\n"
+					rich "$app_rich" -p -a heavy -w 100
+					unset set_status
+				fi
+
+				var regex_command : "(bersih|Bersih|BERSIH|(be|BE)(rs|RS)[a-zA-Z%._-]*)|(cle|CLE)[a-zA-Z%._-]*|(bersih|Bersih|BERSIH|(be|BE)[a-zA-Z%._-]*)[[:space:]]((K|k)(a|A)[a-zA-Z%._-][[:space:]](l|L)(a|A)[a-zA-Z%._-]*|(l|L)(a|A)[a-zA-Z%._-])|(cle|CLE)[a-zA-Z%._-]*[[:space:]](d|D)(is|IS)[a-zA-Z%._-]*|(bersih|Bersih|BERSIH|(be|BE)[a-zA-Z%._-]*)(k|K)(a|A)(n|N)|(bersih|Bersih|BERSIH|(be|BE)[a-zA-Z%._-]*)(k|K)(a|A)(n|N)[[:space:]](layar|Layar|LAYAR|display|Display|DISPLAY|(d|D)(i|I)[a-zA-Z%._-]*|(l|L)(a|A)[a-zA-Z%._-]*)"
+				var regex_kata3 : "(b|B)(ER|er)(h|H)[a-zA-Z%._-]*|(E|e)(XI|xi)[a-zA-Z%._-]*|(k|K)(el|EL)[a-zA-Z%._-]*"
+
+				if [[ "$render_reply" =~ ${regex_command} ]]; then
+					clear;__structure__::bot_main; unset set_status
+				elif [[ "$render_reply" =~ ${regex_kata3} ]]; then
+					Tulis.strN "🤖 ${me}:${pu} Bye bye"; echo; exit; exit
+				fi
+				
+		 		if (test -z "$set_status") || (test "$validasi_end" == "True"); then true && unset validasi_end
+		 		else mechanize_bot || true; fi
+		 	}
+		 done
+	}
+}
+
+const: __structure__ = strukture
+clear
+strukture.bot_main

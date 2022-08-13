@@ -1,0 +1,30 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    faraday (2.4.0)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.1.0)
+    json (2.6.2)
+    lolcat (100.0.1)
+      manpages (~> 0.6.1)
+      optimist (~> 3.0.0)
+      paint (~> 2.1)
+    manpages (0.6.1)
+    optimist (3.0.1)
+    paint (2.3.0)
+    ruby2_keywords (0.0.5)
+
+PLATFORMS
+  aarch64-linux-android
+
+DEPENDENCIES
+  faraday
+  json
+  lolcat
+
+RUBY VERSION
+   ruby 3.1.2p20
+
+BUNDLED WITH
+   2.3.13

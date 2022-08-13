@@ -1,0 +1,17 @@
+# TODO: Anda bisa menambahkan fitur disini dengan menulis beberapa konfigurasi
+
+# Config.set_feature <int> "->" <title> % berfungsi menampilkan opsi di menu
+# Config.setCommand <string> % berfungsi menaruh perintah opsi anda
+# Config.exec_operator % berfungsi Mengeksekusi config yg anda tulis
+
+# TODO: Jika opsi yg tertulis di bangun menggunakan bash maka anda wajib mengalihkan directory agar script bisa membaca library yg sedang di gunakan
+#       tetapi jika bash tidak mengimport suatu hal maka anda tidak perlu mengalihkan directory
+
+# fitur 1
+Config.set_feature 1 "->" Random chat
+Config.setCommand "clear;cd utils/my_feature;bash random.s;cd ../..;clear;strukture.bot_main"
+Config.exec_operator
+# fitur 2
+Config.set_feature 2 "->" Youtube downloader
+Config.setCommand "clear; cd utils/my_feature;bash yt.sh; cd ../..; clear;strukture.bot_main"
+Config.exec_operator
