@@ -1,1 +1,1 @@
-disini lu jelasin script ini buat apa
+disini lu jelasin script ini fungsi nya apa aja
