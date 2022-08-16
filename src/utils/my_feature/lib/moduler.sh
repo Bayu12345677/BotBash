@@ -15,7 +15,7 @@ sys::@file(){
 #	   echo "[**] Sepertinya tidak ada module $1"
 #	   exit 1
 #	 fi
-   for file in $(echo "$__ll__str_arg" | sed -e 's/.sh/''/g'); do
+   for file in $(echo "$__ll__str_arg" | sed -e 's/\.sh/''/g'); do
      if [[ ! -f "${file}.sh" ]]; then
         echo "[**] Sepertinya tidak ada module $@"
         exit 2
