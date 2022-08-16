@@ -67,7 +67,7 @@ def: main()
 			var Ai_date : "Selamat Pagi"
 	elif ((jam == 11 || jam == 12 || jam == 13)); then
 			var Ai_date : "Selamat Siang"
-	elif ((jam == 15 || jam == 16 || jam == 17)); then
+	elif ((jam == 15 || jam == 14 || jam == 16 || jam == 17)); then
 			var Ai_date : "Selamat Sore"
 	elif ((jam == 18)); then
 		var Ai_date : "Selamat Senja"
