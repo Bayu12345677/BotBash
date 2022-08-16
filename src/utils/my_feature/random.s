@@ -100,11 +100,11 @@ def: main()
 		fi
 		botrandom.brain "${input_chat}"
 		var render_reply : $(botrandom.random_reply)
-		call: tput [sc]
+		#call: tput [sc]
 		call: tput [civis]
-		animasi.spinner1 "${ij}[${hi}⚙${ij}]" "${pu}Loading"
-		call: tput [rc]
-		call: tput [ed] && call: tput [cnorm]
+		#animasi.spinner1 "${ij}[${hi}⚙${ij}]" "${pu}Loading"
+		#call: tput [rc]
+		call: tput [cnorm]
 		Tulis.strN \("${ku}[${hi}bot${ku}]  ${me}:${pu} ${render_reply}"\)
 	done
 }
