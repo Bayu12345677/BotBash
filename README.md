@@ -1,4 +1,11 @@
-# BotBash
+<h2 align="center">BotBash</h2>
+<p align="center">
+  <img src="https://img.shields.io/static/v1?logo=nano&label=Language&message=Bourne+again+shell&color=green">
+  <img src="https://img.shields.io/static/v1?logo=shell&label=Framework&message=Bash+id&color=green">
+  <img src="https://img.shields.io/static/v1?logo=nginx&label=Feature&message=Bourne+again+shell&color=green">
+</p>
+
+
 bot yang di lengkapi dengan kecerdasan buatan dan di bangun menggunakan bash script 
 <details open>
   <summary><strong> Install Depencies </strong></summary>
@@ -27,6 +34,8 @@ bot yang di lengkapi dengan kecerdasan buatan dan di bangun menggunakan bash scr
   ```php
   $ make all
   $ make app
+
+  # ketik menu untuk menampilkan beberapa opsi
   ```
   </details>
 
