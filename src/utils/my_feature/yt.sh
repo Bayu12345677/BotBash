@@ -196,7 +196,7 @@ def: main()
 		tput ed cnorm
 		echo
 		Tulis.strN "${me}[${cy}⌬${me}]${pu} Save to${cy} /sdcard/Ytdl"
-		Tulis.strN "${me}[${hi}⚙${me}]$pu Size ${ij}$(du -h ${out}.mp4)"
+		Tulis.strN "${me}[${hi}⚙${me}]$pu Size ${ij}$(du -h \"${out}.mp4\")"
 		This.var std::output = "${set__title/.mp4/}"
 		mkdir /sdcard/Ytdl &> /dev/null
 		tput cnorm
