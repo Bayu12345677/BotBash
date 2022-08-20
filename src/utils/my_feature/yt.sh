@@ -48,6 +48,7 @@ __EOF__
 		var set_id : $(@return: info|jq -r .data.id)
 		var set_title : $(@return: info|jq -r .data.title)
 		var set_durasi : $(@return: info|jq -r .data.duration)
+		var set_jaga : $(@return: info|jq -r .data.mp4)
 		#@return: req|grep -Po '(?<=ytInitialPlayerResponse\s=\s)(.*?)(?=;(?:var\smeta|<\/script>))'|jq -r .streamingData.formats
 	}
 
@@ -64,7 +65,7 @@ EOF
 			argv.get_arg ["$2"]
 		}
 
-		curl -sL "$url" -o "${out}.mp4" --insecure
+		curl --parallel --parallel-max 500 -sL "$url" -o "${out}.mp4" --insecure
 	}
 }
 
@@ -180,8 +181,7 @@ def: main()
 		tput rc
 		let sig_spek=$!
 
-		ytdl.download url="$set_url" out="${set__title/.mp4/}"
-		
+		ytdl.download url="https://ytpp3.com${set_jaga}" out="${set__title/.mp4/}"
 		kill "$sig_spek" 2> /dev/null
 	}
 
@@ -254,4 +254,8 @@ def: main()
 		fi
 }
 
+pg()
+{
+	kill "${sig_spek}" 2> /dev/null; tput cnorm; exit
+}; trap "pg" INT SIGINT
 main
