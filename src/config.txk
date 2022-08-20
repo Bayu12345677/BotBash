@@ -19,3 +19,7 @@ Config.exec_operator
 Config.set_feature 3 -\> Download Video Twitter
 Config.setCommand "python utils/TW.py"
 Config.exec_operator
+# fitur 4
+Config.set_feature 4 -\> Generator Nitro
+Config.setCommand "clear; cd utils/generator-nitro; bash generate.sh; cd ../..; clear;strukture.bot_main"
+Config.exec_operator
