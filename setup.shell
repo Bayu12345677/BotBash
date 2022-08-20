@@ -19,6 +19,6 @@ wget -qP $PREFIX/etc/apt/trusted.gpg.d https://its-pointless.github.io/pointless
 fi
 # Update apt
 apt update
-apt-get --assume-yes install python ruby catimg ffmpeg sox termux-api
+apt-get --assume-yes install python ruby catimg ffmpeg sox termux-api bat less ncurses-utils
 pip install -r pipfile.txt
 bundle install
