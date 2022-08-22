@@ -25,5 +25,5 @@ Config.setCommand "clear; cd utils/generator-nitro; bash generate.sh; cd ../..; 
 Config.exec_operator
 # fitur 5
 Config.set_feature 5 -\> Generator Domain
-Config.set_command "clear; tput init; tput clear; cd utils/random-domain; bash main.shid; cd ../..; clear; strukture.bot_main"
+Config.setCommand "clear; cd utils/random-domain; bash main.shid; cd ../..; clear;strukture.bot_main"
 Config.exec_operator
