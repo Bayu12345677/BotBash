@@ -4,6 +4,10 @@ source <(cat lib/moduler.sh)
 
 Namespace Std :: Sys;
 
+shopt -s checkwinsize
+
+def: pg(){ tput ed ed sgr0;exit $?; };{ trap pg INT SIGINT; }
+
 Bash.import: feature/io.echo
 Bash.import: Shua/Ua
 Bash.import: colorsh/ink
