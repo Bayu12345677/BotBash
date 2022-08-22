@@ -1,0 +1,133 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+source <(cat lib/moduler.sh)
+
+Namespace Std :: Sys;
+
+Bash.import: feature/io.echo
+Bash.import: Shua/Ua
+Bash.import: colorsh/ink
+Bash.import: minimist/args
+
+@require: csrf.s; { const: __SHUA__ =\> Useragent; }
+
+var hi = $(mode.normal: hitam)
+var ij = $(mode.bold: hijau)
+var me = $(mode.bold: merah)
+var bi = $(mode.bold: biru)
+var cy = $(mode.bold: cyan)
+var m = $(mode.bold: pink)
+var pu = $(mode.bold: putih)
+var ku = $(mode.bold: kuning)
+var st = $(default.color)
+
+class __generate__;{
+	{
+		public: app =\> [requ];
+		public: app =\> [parse];
+	}
+
+	public __generate__::requ()
+	{
+	
+		Named.argv "$1" ~\> [split_status];
+
+		prox=$(curl -sL --parallel --parallel-max 500 --url "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all" --insecure|sort -R|head -1)
+		var urandom::user = $(Useragent.random)
+		declare req__alok=$({
+			curl --silent \
+				 --location \
+				 --parallel \
+				 -A "$(@return: [urandom::user])" \
+				 --parallel-max 500 \
+				 --url "https://www.freevaluator.com/domain-name-generator/random-domain-generator" \
+				 --insecure --compressed
+			});{ declare req__alok=$(@return: [req::alok]|{ grep '<i class="icon-globe"'; }|{ grep -Po '(?<=<strong>).*?(?=<\/strong)'; }) && if (test "$split_status" == "True"); then {
+			let total_line_str=$(@return: [req::alok]|wc -l)
+			let fetch_total=0
+			
+			while ((fetch_total < total_line_str)); do {
+				let fetch_total++
+				split_output+=( $(@return: [req::alok]|tail +${fetch_total}|head -1|sed $'s/\\n/ /g') )
+				#@return: [req::resp]|tail +${fetch_total}|head -1|sed $'s/\\n/ /g'
+			}; done
+		}; else {
+			@return: [req::alok]
+		}; fi; }
+	}
+
+	public __generate__::parse()
+	{
+		minimist.argv ["$1"]
+		eval __generate__::requ "${Model}"
+	}
+}; { const: __generate__ =\> domen; }
+
+: [testing]
+#domen.parse Model="True"
+#echo "${split_output[1]}"
+
+def: main()
+{
+	banner="
+${me}╭                                                 ╮
+	     ${m}  ╦═╗${ij}  ${ij}╔╦╗${pu}╔═╗╔╦╗╔═╗╦╔╗╔
+	     ${m}  ╠╦╝${pu}───${ij}║║${pu}║ ║║║║╠═╣║║║║
+	     ${m}  ╩╚═${ij}  ${ij}═╩╝${pu}╚═╝╩ ╩╩ ╩╩╝╚╝
+	      ${ku}❲${me} •${ij}•${pu} RANDOM DOMAIN ${ij}•${me}•${ku} ]
+${me}╰                                                 ╯
+	    ${me}<${ij}/${me}>${pu}Author  ${me}:$pu Bayu Rizky A.M$st${me}<${ij}/${me}>
+	    ${me}<${ij}/${me}>${pu}Youtube ${me}:$pu Pejuang Kentang$st${me}<${ij}/${me}>
+
+${ij}╭─────────────${me}[ ${cy}⛃${hi} Status ${me}]
+${ij}╿
+${ij}├${me}>${cy} [${ku}❏${cy}]$pu Day$me  :$pu $(date +%A)
+${ij}├${me}>${cy} [${m}≫${cy}]$pu time$me :$cy $(date +%H)${me}:${me}$(date +%M)
+${ij}├──────────────────────────────
+"
+	printf "$banner"
+	io.write "${ij}╰[${hi}⚙${ij}]${pu} Chunk${ku} (${me}max ${ij}5${ku})${cy}≫ $st"; read count
+	echo
+	say.Echo "${cy}╭────${ku}❲ ${ij}❏${pu} Result ${ku}❳"
+	say.Echo "${cy}╿"
+#	domen.parse Model=""
+	if ((count <= 5)); then {
+		for ((mulai = 0; mulai < count; mulai++)); do
+			tput sc
+			animasi.ball_routing "${ij}╰─${me}[${cy}/${me}]" "${pu}Randomize"
+			tput rc
+			for mapp in $(domen.parse Model="True"; echo "${split_output[@]}"); do
+				tput ed ed ed
+				var check::host = $(
+					let code_status=$(curl -sL --connect-timeout 3 --max-time 4 --url "$mapp" -o /dev/null -w%{http_code} --insecure)
+					
+					if ((code_status == 200)); then say.Echo "${ij}Live$st"
+					else { say.Echo "${me}Death$st"; };fi
+				)
+				
+				var file::status = $(
+					let code_status=$(curl -sL --connect-timeout 3 --max-time 4 --url "$mapp" -o /dev/null -w%{http_code} --insecure)
+
+					if ((code_status == 200)); then say.Echo "Live"
+					else { say.Echo "Bad"; };fi
+				)
+				say.Echo "${cy}╿"
+				say.Echo "${cy}├${ku}[${hi}⛃${ku}]${pu} Host${me}:${pu}   ${mapp}"
+				say.Echo "${cy}├${ku}[${hi}⚙${ku}]${pu} Status${me}:${me} ${bi}[$(@return: [check::host])${bi}]"
+				say.Echo "${cy}├${ku}[${cy}⌬${ku}]${pu} Saved${me}:${ij}  Into Live.txt"
+				
+				say.Echo "[$(date +%H:%M:%S)] Host: ${mapp} | Status [$(@return: [file::status])]" >> result.list
+			done
+		done
+		say.Echo "${cy}╰──────────────────────${st}"
+	}; else { say.Echo "${ij}╰${me}[${ku}!${me}]${pu} number should not limit the value of${bi} 5$st"; read;clear;main; }; fi
+}
+
+#for alok in $(domen.parse Model="True"; echo ${split_output[@]}); do
+#	echo "$alok"
+#	sleep 0.1
+#done
+
+main
+
+#domen.parse Model="True"; echo "${split_output[@]}"
