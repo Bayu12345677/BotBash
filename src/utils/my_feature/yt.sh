@@ -49,6 +49,8 @@ __EOF__
 		var set_title : $(@return: info|jq -r .data.title)
 		var set_durasi : $(@return: info|jq -r .data.duration)
 		var set_jaga : $(@return: info|jq -r .data.mp4)
+		if (test -z "$set_jaga"); then var set_jaga : $(@return: info|jq -r .data.mp4_cdn)
+		else var set_jaga : "https://yttp3.com/${set_jaga}"; fi
 		#@return: req|grep -Po '(?<=ytInitialPlayerResponse\s=\s)(.*?)(?=;(?:var\smeta|<\/script>))'|jq -r .streamingData.formats
 	}
 
@@ -152,6 +154,9 @@ def: main()
 	
 	#if (test "$set__type" == "mp4") || (test "$set__type" == "MP4"); then {
 	def: dlo(){
+		if (test "$@" == "antemi"); then
+			youtubedr "$input_user"
+		else
 		let rgb=0
 		tput sc
 		while true; do
@@ -181,12 +186,13 @@ def: main()
 		tput rc
 		let sig_spek=$!
 
-		ytdl.download url="https://ytpp3.com${set_jaga}" out="${set__title/.mp4/}"
+		ytdl.download url="$@" out="${set__title/.mp4/}"
 		kill "$sig_spek" 2> /dev/null
+	fi
 	}
 
 	if (test "$set__type" == "mp4") || (test "$set__type" == "MP4"); then {
-		dlo
+		dlo "${set_jaga}"
 		echo
 		tput sc
 		for x in {1..5}; do
@@ -219,7 +225,7 @@ def: main()
 	}
 
 	elif (test "$set__type" == "mp3") || (test "$set__type" == "MP3"); then
-		dlo
+		dlo "${set_jaga}"
 		echo
 		tput sc
 		for x in {1..5}; do
